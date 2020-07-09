@@ -1,0 +1,17 @@
+.Scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+.Scale-item {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+.Scale-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
