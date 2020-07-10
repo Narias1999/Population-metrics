@@ -1,6 +1,6 @@
 import React from 'react';
 import data from './../data.json';
-import { scaleLog } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import {
   ComposableMap,
   Geographies,
@@ -17,9 +17,11 @@ const geoUrl =
 
 const values = Object.values(data);
 
-export function Map({ color = '#3352ff', key = 'Population' }) {
-  const [min, max] = calcMinimumAndMaximum(values, key);
-  const colorScale = scaleLog().domain([min, max]).range(['#ffedea', color]);
+export function Map({ color = '#000000', dataKey = 'Population', deviation }) {
+  const [min, max] = calcMinimumAndMaximum(values, dataKey, deviation);
+  const colorScale = scaleLinear()
+    .domain([min + 1, max])
+    .range(['#ffedea', color]);
   return (
     <div className='Map'>
       <div className='Map-main'>
@@ -29,8 +31,6 @@ export function Map({ color = '#3352ff', key = 'Population' }) {
             scale: 147,
           }}
         >
-          <Sphere stroke='#E4E5E6' strokeWidth={0.5} />
-          <Graticule stroke='#E4E5E6' strokeWidth={0.5} />
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo) => {
@@ -42,7 +42,7 @@ export function Map({ color = '#3352ff', key = 'Population' }) {
                     onClick={() => alert(geo.properties.NAME)}
                     fill={
                       countryPopulation
-                        ? colorScale(countryPopulation['Population'])
+                        ? colorScale(countryPopulation[dataKey])
                         : '#F5F4F6'
                     }
                   />
@@ -52,7 +52,7 @@ export function Map({ color = '#3352ff', key = 'Population' }) {
           </Geographies>
         </ComposableMap>
       </div>
-      <Scale scale={colorScale} min={min} max={max} />
+      <Scale scale={colorScale} />
     </div>
   );
 }

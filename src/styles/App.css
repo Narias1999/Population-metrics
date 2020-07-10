@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --background: rgb(228, 228, 228);
+  --color: rgb(31, 31, 31);
+  color: var(--color);
+  background: var(--background);
 }
 
 code {
@@ -12,5 +16,15 @@ code {
     monospace;
 }
 .App {
+  padding: 0 20px;
   text-align: center;
+}
+select {
+  padding: 5px;
+  min-width: 300px;
+  font-size: 15px;
+  background-color: var(--background);
+  color: var(--color);
+  border: 0;
+  border-bottom: 2px solid var(--color);
 }

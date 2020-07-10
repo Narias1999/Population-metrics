@@ -1,7 +1,7 @@
 import React from 'react';
 import './../styles/components/Scale.css';
 
-export function Scale({ scale, min, max }) {
+export function Scale({ scale }) {
   const ranges = scale.ticks(5);
   return (
     <div className='Scale'>
