@@ -1,13 +1,7 @@
 import React from 'react';
 import data from './../data.json';
 import { scaleLinear } from 'd3-scale';
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Sphere,
-  Graticule,
-} from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { Scale } from './Scale';
 import { calcMinimumAndMaximum } from './../utils/calcMinimumAndMaximums';
 import './../styles/components/Map.css';
@@ -17,7 +11,12 @@ const geoUrl =
 
 const values = Object.values(data);
 
-export function Map({ color = '#000000', dataKey = 'Population', deviation }) {
+export function Map({
+  color = '#000000',
+  dataKey = 'Population',
+  deviation,
+  onSelectCountry,
+}) {
   const [min, max] = calcMinimumAndMaximum(values, dataKey, deviation);
   const colorScale = scaleLinear()
     .domain([min + 1, max])
@@ -34,12 +33,13 @@ export function Map({ color = '#000000', dataKey = 'Population', deviation }) {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo) => {
-                const countryPopulation = data[geo.properties.NAME];
+                const { NAME } = geo.properties;
+                const countryPopulation = data[NAME];
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    onClick={() => alert(geo.properties.NAME)}
+                    onClick={() => onSelectCountry(NAME, countryPopulation)}
                     fill={
                       countryPopulation
                         ? colorScale(countryPopulation[dataKey])
